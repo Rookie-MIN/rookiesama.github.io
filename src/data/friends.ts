@@ -13,6 +13,14 @@ export interface FriendItem {
 // 友情链接数据
 export const friendsData: FriendItem[] = [
 	{
+		id: 0,
+		title: "Raincnya",
+		imgurl: "https://raincnya.space/img/avatar.jpg",
+		desc: "朋友的博客，分享技术、生活、思考等",
+		siteurl: "https://raincnya.space/",
+		tags: ["FriendBlog"],
+	},
+	{
 		id: 1,
 		title: "Astro",
 		imgurl: "https://avatars.githubusercontent.com/u/44914786?v=4&s=640",
