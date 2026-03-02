@@ -441,8 +441,8 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 	//https://api.injahow.cn/meting/?server=:server&type=:type&id=:id 其他API 服务商,可用QQ音乐
 	meting_api:
 		"https://api.injahow.cn/meting/?server=:server&type=:type&id=:id", // Meting API 地址 bilibili: https://www.bilibili.uno/api?server=:server&type=:type&id=:id&auth=:auth&r=:r
-	id: "14164869977", // 歌单ID 自己的:7670664590  原歌单14164869977
-	server: "netease", // 音乐源服务器。有的meting的api源支持更多平台,一般来说,netease=网易云音乐, tencent=QQ音乐, kugou=酷狗音乐, xiami=虾米音乐, baidu=百度音乐
+	id: "9541252936", // 歌单ID 自己的:7670664590  原歌单14164869977
+	server: "tencent", // 音乐源服务器。有的meting的api源支持更多平台,一般来说,netease=网易云音乐, tencent=QQ音乐, kugou=酷狗音乐, xiami=虾米音乐, baidu=百度音乐
 	type: "playlist", // 播单类型
 };
 
