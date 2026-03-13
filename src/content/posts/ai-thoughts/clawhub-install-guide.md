@@ -28,15 +28,15 @@ pubDate: 2026-03-10
 
 ## 一、安装ClawHub核心工具
 
-```powershell
+`powershell
 npm install -g clawhub
-```
-
+`
 
 验证安装：
-```powershell
+`powershell
 clawhub --version
-```
+`
+
 ## 二、安装Skill的完整步骤
 
 ### 搜索Skill
@@ -51,15 +51,15 @@ clawhub install baidu-search --workdir C:\Users\Rookie\.openclaw\workspace
 `
 
 ### 验证与依赖补全
-```powershell
+`powershell
 openclaw skills check
-```
+`
 
 ### 重启Gateway
-```powershell
+`powershell
 openclaw gateway stop
 openclaw gateway start
-```
+`
 
 ## 三、Skill使用方法
 
@@ -70,12 +70,12 @@ openclaw gateway start
 
 ## 四、推荐安装的Skill
 
-| Skill名称           | 核心功能    |
-| ----------------- | ------- |
-| baidu-search      | 百度AI搜索  |
-| diagram-generator | 生成流程图   |
-| humanizer         | 去AI味润色  |
-| edge-tts          | 微软免费TTS |
+| Skill名称 | 核心功能 |
+|-----------|----------|
+| baidu-search | 百度AI搜索 |
+| diagram-generator | 生成流程图 |
+| humanizer | 去AI味润色 |
+| edge-tts | 微软免费TTS |
 
 ## 总结
 

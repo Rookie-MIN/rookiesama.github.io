@@ -39,10 +39,12 @@ pubDate: 2026-03-09
 ## 接入OpenClaw
 
 三条命令：
-
+```shell
 openclaw plugins install @sliverp/qqbot@latest
 openclaw channels add --channel qqbot --token AppID:AppSecret
 openclaw gateway restart
+```
+
 
 ## 验证
 
