@@ -66,7 +66,7 @@ Cron 调度器 → 时间到达 → 执行 payload 定义的任务 → 通过 de
 
 ### 基础配置
 
-在 workspace 目录下创建 HEARTBEAT.md：
+在 workspace 目录下创建 \HEARTBEAT.md\：
 
 \\\markdown
 # 心跳检查配置
@@ -113,7 +113,7 @@ AI 收到心跳触发消息后，会：
 
 ### 配置文件位置
 
-~/.openclaw/cron/jobs.json
+\~/.openclaw/cron/jobs.json\
 
 ### 完整配置示例
 
@@ -176,8 +176,11 @@ AI 收到心跳触发消息后，会：
 
 ### 示例：Node.js 定时任务
 
+创建一个独立的 JavaScript 文件来管理定时任务：
+
 \\\javascript
 // 文件：tools/scheduled-task.js
+
 const fs = require('fs');
 const path = require('path');
 
@@ -201,13 +204,14 @@ class TaskScheduler {
   }
 
   // 解析调度表达式（简化版）
+  // 支持格式：30m = 30分钟，1h = 1小时，1d = 1天
   parseSchedule(schedule) {
     const units = {
-      'm': 60 * 1000,
-      'h': 60 * 60 * 1000,
-      'd': 24 * 60 * 60 * 1000
+      'm': 60 * 1000,        // 分钟转毫秒
+      'h': 60 * 60 * 1000,   // 小时转毫秒
+      'd': 24 * 60 * 60 * 1000  // 天转毫秒
     };
-    const match = schedule.match(/^(\d+)([mhd])$/);
+    const match = schedule.match(/^(\\d+)([mhd])$/);
     return match ? parseInt(match[1]) * units[match[2]] : 60 * 1000;
   }
 
@@ -226,7 +230,8 @@ class TaskScheduler {
   }
 }
 
-// 使用示例
+// ============ 使用示例 ============
+
 const scheduler = new TaskScheduler();
 
 // 任务1：每30分钟执行
@@ -241,7 +246,13 @@ scheduler.register('cleanup', '1h', () => {
   // 执行清理逻辑
 });
 
-// 启动
+// 任务3：每天执行
+scheduler.register('daily-report', '1d', () => {
+  console.log('Generating daily report...');
+  // 生成日报逻辑
+});
+
+// 启动调度器（每分钟检查一次）
 scheduler.start(60000);
 \\\
 
@@ -252,10 +263,88 @@ scheduler.start(60000);
 \\\json
 {
   "name": "scheduled-task",
-  "command": "node C:\\Users\\Rookie\\.openclaw\\tools\\scheduled-task.js",
+  "command": "node C:\\\\Users\\\\Rookie\\\\.openclaw\\\\tools\\\\scheduled-task.js",
   "background": true,
   "timeout": 300
 }
+\\\
+
+或者使用 Python 版本：
+
+\\\python
+# 文件：tools/scheduled-task.py
+
+import time
+import re
+from datetime import datetime
+from typing import Callable, Dict, List
+
+class TaskScheduler:
+    def __init__(self):
+        self.tasks: Dict[str, dict] = {}
+    
+    def register(self, name: str, schedule: str, callback: Callable):
+        \"\"\"
+        注册任务
+        schedule 格式：30m (分钟), 1h (小时), 1d (天)
+        \"\"\"
+        interval_ms = self._parse_schedule(schedule)
+        self.tasks[name] = {
+            'schedule': schedule,
+            'callback': callback,
+            'last_run': 0,
+            'interval_ms': interval_ms
+        }
+    
+    def _parse_schedule(self, schedule: str) -> int:
+        \"\"\"解析调度表达式\"\"\"
+        units = {
+            'm': 60 * 1000,
+            'h': 60 * 60 * 1000,
+            'd': 24 * 60 * 60 * 1000
+        }
+        match = re.match(r'^(\\d+)([mhd])$', schedule)
+        if match:
+            return int(match.group(1)) * units[match.group(2)]
+        return 60 * 1000  # 默认1分钟
+    
+    def should_run(self, task: dict) -> bool:
+        \"\"\"检查是否应该执行\"\"\"
+        return time.time() * 1000 - task['last_run'] >= task['interval_ms']
+    
+    def run(self):
+        \"\"\"执行所有到期的任务\"\"\"
+        for name, task in self.tasks.items():
+            if self.should_run(task):
+                print(f'[Task] Executing: {name}')
+                task['callback']()
+                task['last_run'] = time.time() * 1000
+    
+    def start(self, interval_ms: int = 60000):
+        \"\"\"启动调度器\"\"\"
+        print('[TaskScheduler] Started')
+        while True:
+            self.run()
+            time.sleep(interval_ms / 1000)
+
+# ============ 使用示例 ============
+
+def health_check():
+    print('Running health check...')
+
+def cleanup():
+    print('Running cleanup...')
+
+def daily_report():
+    print('Generating daily report...')
+
+scheduler = TaskScheduler()
+scheduler.register('health-check', '30m', health_check)
+scheduler.register('cleanup', '1h', cleanup)
+scheduler.register('daily-report', '1d', daily_report)
+
+# 启动调度器
+scheduler.start(60000)
 \\\
 
 ## 六、最佳实践建议
